@@ -119,8 +119,50 @@ client_id = "310c337f3b7247a49d84b12c5c1de6ba"
 client_secret = "2d36f1dd9ed54c6f99af70d48e7495bf"
 
 spotify = SpotifyAPI(client_id, client_secret)
+#print(spotify.search('Tadow','track')['tracks']['items'][0]['id']) #SPOTIFY TRACK ID
+#print(spotify.search('Tadow','track')['tracks']['items'][0]['name'])  #TRACK TITLE
+#print(spotify.search('Tadow','track')['tracks']['items'][0]['album']['artists'][0]['name'])#ARTIST NAME
+#print(spotify.search('Tadow','track')['tracks']['items'][0]['album']['artists'][0]['external_urls']) #ARTIST URL TO THEIR PAGE ON SPOTIFY
+#print(spotify.search('Tadow','track')['tracks']['items'][0]['album']['images'][-1]['url']) #IMAGE OF TRACK
 
-#print(spotify.search('Tadow','track'))
+#track_list = spotify.search('Over you','track')['tracks']['items']
+#count = 0
+#track_id_trial = None
+#for track in track_list:
+#   if count == 0:
+#        track_id_trial = track['id']
+#        print("---------- FIRST TRACK DOWN BELOW ----------")
+#        count = 1
+#    print("title: " + track['name'] + ", artist: " + track['album']['artists'][0]['name'])
+#    print("SPOTIFY ALBUM ID: " + track['id'])
+#    print("IMAGE OF TRACK: ")
+#    url_album_cover = track['album']['images'][-2]['url']
+#    print(url_album_cover)
+#print(spotify.get_artist("3ycxRkcZ67ALN3GQJ57Vig")["name"])
+#trial_id = spotify.get_track(track_id_trial)
+#print("------ First Track in file ------")
+#print("title: " + trial_id['name'] + ", artist: " + trial_id['album']['artists'][0]['name'])
+#print("SPOTIFY ALBUM ID: " + trial_id['id'])
+#print("IMAGE OF TRACK: ")
+#url_album_cover = trial_id['album']['images'][-2]['url']
+#print(url_album_cover)
 
-print(spotify.get_artist("3ycxRkcZ67ALN3GQJ57Vig")["name"])
-#print(spotify.get_track("11dFghVXANMlKmJXsNCbNl"))
+def search_query(query):
+    track_list = spotify.search(query,'track')['tracks']['items']
+    track_list_file = []
+    for track in track_list:
+        track_list_file.append({
+            'title' : track['name'],
+            'artist' : track['album']['artists'][0]['name'],
+            'id' : track['id'],
+            'image_url' : track['album']['images'][-2]['url']
+        })
+    return track_list_file
+
+track_list = search_query("Tadow")
+for track in track_list:
+    print("title: " + track['title'] + ", artist: " + track['artist'])
+    print("SPOTIFY ALBUM ID: " + track['id'])
+    print("IMAGE OF TRACK: ")
+    url_album_cover = track['image_url']
+    print(url_album_cover)
